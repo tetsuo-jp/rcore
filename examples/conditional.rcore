@@ -1,0 +1,21 @@
+(* May 18, 2016 *)
+(* swap values X <=> Y *)
+macro SWAP(X,Y,N)
+  (* X=d, Y=e, N=nil *)
+  N ^= X; X ^= N;
+  X ^= Y; Y ^= X;
+  Y ^= N; N ^= Y
+  (* X=e, Y=e, N=nil *)
+
+read X2;
+  X1 ^= cons X0 X0;
+  from  X1
+  loop  X3 ^= 'a;
+        SWAP(X1,X2,X0)
+  until X2;
+  SWAP(X1,X2,X0);
+  X1 ^= cons X0 X0;
+  X4 ^= cons X2 X3;
+  X2 ^= hd X4;
+  X3 ^= tl X4;
+write X4

@@ -1,0 +1,29 @@
+macro PUSH(X,Y,N)
+  (* X=d,Y=e,N=nil *)
+  N ^= cons X Y;
+  X ^= hd N;
+  Y ^= tl N;
+  Y ^= N;
+  N ^= Y
+  (* X=nil,Y=(d.e),N=nil *)
+
+
+macro POP(X,Y,N)
+  (* X=nil,Y=(d.e),N=nil *)
+  N ^= Y;
+  Y ^= N;
+  Y ^= tl N;
+  X ^= hd N;
+  N ^= cons X Y
+  (* X=d,Y=e,N=nil *)  
+
+read X3;
+  X2 ^= 'a;
+  PUSH(X2,X3,X0);
+  X2 ^= 'b;
+  PUSH(X2,X3,X0);
+  X2 ^= 'c;
+  PUSH(X2,X3,X0);
+  POP(X2,X3,X0);
+  X2 ^= 'c;
+write X3

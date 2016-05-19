@@ -1,0 +1,55 @@
+macro PUSH(X,Y,N)
+  (* X=d,Y=e,N=nil *)
+  N ^= cons X Y;
+  X ^= hd N;
+  Y ^= tl N;
+  Y ^= N;
+  N ^= Y
+  (* X=nil,Y=(d.e),N=nil *)
+
+macro POP(X,Y,N)
+  (* X=nil,Y=(d.e),N=nil *)
+  N ^= Y;
+  Y ^= N;
+  Y ^= tl N;
+  X ^= hd N;
+  N ^= cons X Y
+  (* X=d,Y=e,N=nil *)  
+
+macro LOOKUP(Vl,JJ,X,T,I,J,K,Vr,N)
+  AUX(Vl,JJ,I,J,K,T,Vr,N);
+  X ^= T;
+  INV-AUX(Vl,JJ,I,J,K,T,Vr,N)
+
+macro UPDATE(Vl,JJ,E,T,I,J,K,Vr,N)
+  AUX(Vl,JJ,I,J,K,T,Vr,N);
+  T ^= E;
+  INV-AUX(Vl,JJ,I,J,K,T,Vr,N)
+
+macro SET(JJ,I,J,K,N)
+  I ^= =? K N;
+  J ^= =? K JJ
+
+macro AUX(Vl,JJ,I,J,K,T,Vr,N)
+  (* I, J, K, T, Vr are nil *)
+  SET(JJ,I,J,K,N);       (* set   I and J *)
+  from I loop
+    INV-SET(JJ,I,J,K,N); (* clear I and J *)
+    POP(T,Vl,N);
+    PUSH(T,Vr,N);        (* clear T       *)
+    PUSH(T,K,N);         (* push nil      *)
+    SET(JJ,I,J,K,N)      (* set   I and J *)
+  until J;
+  INV-SET(JJ,I,J,K,N);   (* clear I and J *)
+  T ^= hd Vl;
+  I ^= tl Vl;
+  Vl ^= cons T I
+
+read X1;
+  PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2);
+  X2 ^= (nil.nil);
+  X3 ^= 'a;
+  UPDATE(X1,X2,X3,X4,X5,X6,X7,X8,X9);
+  X3 ^= 'a;
+  X2 ^= (nil.nil);
+write X1
