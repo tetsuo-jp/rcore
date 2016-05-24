@@ -46,10 +46,10 @@ macro AUX(Vl,JJ,I,J,K,T,Vr,N)
   Vl ^= cons T I
 
 read X1;
-  PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2);
-  X2 ^= (nil.nil);
-  X3 ^= 'a;
+  PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2); PUSH(X0,X1,X2);  (* Initialize Vl *)
+  X2 ^= (nil.nil); (* Index *)
+  X3 ^= 'a;        (* Value *)
   UPDATE(X1,X2,X3,X4,X5,X6,X7,X8,X9);
-  X3 ^= 'a;
-  X2 ^= (nil.nil);
+  X3 ^= 'a;        (* Clear X3 *)
+  X2 ^= (nil.nil); (* Clear X2 *)
 write X1

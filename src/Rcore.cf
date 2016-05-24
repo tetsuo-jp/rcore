@@ -37,7 +37,7 @@ separator RIdent "," ;
 
 CSeq.  Com  ::= Com ";" Com1 ;                               -- Sequence
 CMac.  Com1 ::= RIdent "(" [RIdent] ")" ;                    -- Parameterized macro
-CAss.  Com1 ::= RIdent "^=" Exp ;                            -- Reversible assignment
+CAsn.  Com1 ::= RIdent "^=" Exp ;                            -- Reversible assignment
 CLoop. Com1 ::= "from" Exp LoopBranch "until" Exp ;          -- Reversible loop
 CShow. Com1 ::= "show" Exp ;                                 -- Show command (for debugging use)
 coercions Com 1;

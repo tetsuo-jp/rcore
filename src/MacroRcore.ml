@@ -23,7 +23,7 @@ and substExp ss = function
 and substCom ss = function
     CMac (m, xs) -> let xs' = map (fun y -> try assoc y ss with Not_found -> y) xs
 		    in CMac (m, xs')
-  | CAss (x, e) -> CAss (substRIdent ss x, substExp ss e)
+  | CAsn (x, e) -> CAsn (substRIdent ss x, substExp ss e)
   | CSeq (c, d) -> CSeq (substCom ss c, substCom ss d)
   | CLoop (e, loopbranch, f) ->
      CLoop (substExp ss e, substLoopBranch ss loopbranch, substExp ss f)
@@ -38,15 +38,17 @@ and substLoopBranch s = function
 let rec expMacCom (ms : macro list) = function
     CMac (m, xs) -> let rec expandMacro = function
 		      | [] -> failwith ("Macro " ^ printTree prtRIdent m ^ " not found")
-		      | Mac (m',xs',c) :: ns -> try if invMacroName m' = m
-						    then expMacCom ms (substCom (combine xs' xs) (invCom c))
-						    else if m = m' 
-						    then expMacCom ms (substCom (combine xs' xs) c) 
-						    else expandMacro ns
-						with Invalid_argument "List.combine" ->
-						  failwith ("Macro " ^ printTree prtRIdent m ^ " expects " ^ string_of_int (length xs') ^ " argument(s) but got " ^ string_of_int (length xs))
+		      | Mac (m',xs',c) :: ns -> (match if invMacroName m' = m
+						       then expMacCom ms (substCom (combine xs' xs) (invCom c))
+						       else if m = m' 
+						       then expMacCom ms (substCom (combine xs' xs) c) 
+						       else expandMacro ns with
+						 | exception (Invalid_argument _) -> (* "List.combine" *)
+						    failwith ("Macro " ^ printTree prtRIdent m ^ " expects " ^ string_of_int (length xs') ^ " argument(s) but got " ^ string_of_int (length xs))
+						 | default -> default
+						)
 		    in expandMacro ms
-  | CAss _ as e -> e
+  | CAsn _ as e -> e
   | CSeq (c, d) -> CSeq (expMacCom ms c, expMacCom ms d)
   | CLoop (e, loopbranch, f) -> 
      CLoop (e, expMacLoopBranch ms loopbranch, f)

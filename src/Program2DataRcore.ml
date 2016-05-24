@@ -13,8 +13,9 @@ let rec repeat s n = if n = 0 then [] else s :: repeat s (n-1)
 let doNothing = conss [atom "'ass"; conss [atom "'var"; VNil]; conss [atom "'val"; VNil]]
 
 let rec transRIdent (RIdent str) : valT =
-  try conss (repeat VNil (int_of_string str))
-  with Failure("int_of_string") -> failwith "Impossible happened."
+  match conss (repeat VNil (int_of_string str)) with
+  | exception (Failure _) -> failwith "Impossible happened." (* int_of_string *)
+  | default -> default
 
 and transVariable (Var rident) : valT = conss [atom "'var"; transRIdent rident]
 
@@ -31,7 +32,7 @@ and transCom (c : com) : valT =
   conss (match c with
 	 | CSeq (c1, c2) -> [atom "'seq"; transCom c1; transCom c2]
 	 | CMac (rident, ridents) -> failwith "error in transCom"
-	 | CAss (x, e) -> [atom "'ass"; conss [atom "'var"; transRIdent x]; transExp e]
+	 | CAsn (x, e) -> [atom "'ass"; conss [atom "'var"; transRIdent x]; transExp e]
 	 | CLoop (e, loopbranch, f) -> 
 	    [atom "'loop"; conss [transExp e; transLoopBranch loopbranch; transExp f; VNil]]
 	 | CShow e -> [])
@@ -69,7 +70,7 @@ and substExp s = function
 and substCom s = function
     CSeq (c, d) -> CSeq (substCom s c, substCom s d)
   | CMac (m, xs) -> CMac (m, map (substRIdent s) xs)
-  | CAss (x, e) -> CAss (substRIdent s x, substExp s e)
+  | CAsn (x, e) -> CAsn (substRIdent s x, substExp s e)
   | CLoop (e, loopbranch, f) ->
      CLoop (substExp s e, substLoopBranch s loopbranch, substExp s f)
   | CShow e -> CShow (substExp s e)

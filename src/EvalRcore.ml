@@ -50,7 +50,7 @@ and varMac (Mac (_,xs,c)) = merge xs (varCom c)
 
 and varCom = function
   | CMac (_, xs) -> merge xs []
-  | CAss (x,e) -> insert x (varExp e)
+  | CAsn (x,e) -> insert x (varExp e)
   | CSeq (c, d) -> merge (varCom c) (varCom d)
   | CLoop (e, loopBranch, f) ->
      fold_right merge [varExp e; varExp f; varLoopBranch loopBranch] []
@@ -85,7 +85,7 @@ let rec evalExp s = function
 
 and evalCom (s : store) : com -> store = function
   | CMac (_, _) -> failwith "Impossible happened.  Macro must not appear in runtime."
-  | CAss (y, e) -> let v' = evalExp s e in
+  | CAsn (y, e) -> let v' = evalExp s e in
 		   rupdate (y, v') s
   | CSeq (c, d) -> let s1 = evalCom s c in
 		   evalCom s1 d

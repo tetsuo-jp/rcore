@@ -10,7 +10,7 @@ let invMacroName (RIdent str) : rIdent =
 
 let rec invCom = function
     CMac (x, idents) -> CMac (invMacroName x, idents) 
-  | CAss (x, e) -> CAss (x, e)
+  | CAsn (x, e) -> CAsn (x, e)
   | CSeq (c, d) -> CSeq (invCom d, invCom c)
   | CLoop (e, loopbranch, f) ->
      CLoop (f, invLoopBranch loopbranch, e)
