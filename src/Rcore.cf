@@ -1,0 +1,80 @@
+-------------------------------------------------------------------------------
+-- A grammer of R-CORE
+-------------------------------------------------------------------------------
+--
+-- Variables    ∋  X, Y  ::=  X0 | X1 | ... | X7
+-- Expressions  ∋  E, F  ::=  X | nil | hd X | tl X
+--                          |  cons X Y | =? X Y
+-- Commands     ∋  C, D  ::=  X ^= E | C; D
+--                          |  from X loop C until Y
+-- Macro        ∋  M     ::=  macro X ( X, ..., X ) C
+-- Programs     ∋  P     ::=  M* read X; C; write X
+--
+-------------------------------------------------------------------------------
+
+entrypoints Program, Val;
+
+
+-------------------------------------------------------------------------------
+-- Program
+-------------------------------------------------------------------------------
+
+Prog.  Program  ::= [Macro] "read" RIdent ";" Com ";" "write" RIdent;
+terminator Macro "" ;
+
+
+-------------------------------------------------------------------------------
+-- Macro
+-------------------------------------------------------------------------------
+
+Mac.   Macro ::= "macro" RIdent "(" [RIdent] ")" Com ;
+separator RIdent "," ;
+
+
+-------------------------------------------------------------------------------
+-- Command
+-------------------------------------------------------------------------------
+
+CSeq.  Com  ::= Com ";" Com1 ;                               -- Sequence
+CMac.  Com1 ::= RIdent "(" [RIdent] ")" ;                    -- Parameterized macro
+CAsn.  Com1 ::= RIdent "^=" Exp ;                            -- Reversible assignment
+CLoop. Com1 ::= "from" Exp LoopBranch "until" Exp ;          -- Reversible loop
+CShow. Com1 ::= "show" Exp ;                                 -- Show command (for debugging use)
+coercions Com 1;
+
+BLoop.     LoopBranch ::= "loop" Com ;
+BLoopNone. LoopBranch ::= ;
+
+
+-------------------------------------------------------------------------------
+-- Expression
+-------------------------------------------------------------------------------
+
+ECons. Exp  ::= "cons" Exp1 Exp1 ;
+EHd.   Exp  ::= "hd" Exp1 ;
+ETl.   Exp  ::= "tl" Exp1 ;
+EEq.   Exp  ::= "=?" Exp1 Exp1 ;     -- Equality check
+EVar.  Exp1 ::= Variable ;
+EVal.  Exp1 ::= Val ;
+coercions Exp 1;
+
+
+-------------------------------------------------------------------------------
+-- Value
+-------------------------------------------------------------------------------
+
+VNil.  Val  ::= "nil" ;
+VAtom. Val  ::= Atom ;          -- ex. 'a, 'loop
+VCons. Val  ::= "(" Val "." Val ")";
+
+
+-------------------------------------------------------------------------------
+-- Misc
+-------------------------------------------------------------------------------
+
+Var.   Variable  ::= RIdent;
+
+token RIdent upper (letter | digit | '-' | '\'')*;  -- ex. X, REVERSE, INV-REVERSE
+token Atom '\'' (digit | letter)+;                  -- ex. 'val, '32, 
+
+comment "(*" "*)" ;

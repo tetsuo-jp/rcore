@@ -1,0 +1,11 @@
+(* May 18, 2016 *)
+(* move value Y <= X *)
+macro MOVE(X,Y)
+  (* X=d, Y=nil *)
+  Y ^= X;
+  X ^= Y
+  (* X=nil, Y=d *)
+
+read X0;
+  MOVE(X0,X1);
+write X1

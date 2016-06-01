@@ -1,0 +1,20 @@
+(* May 18, 2016 *)
+(* swap values X <=> Y *)
+macro SWAP(X,Y,N)
+  (* X=d, Y=e, N=nil *)
+  N ^= X; X ^= N;
+  X ^= Y; Y ^= X;
+  Y ^= N; N ^= Y
+  (* X=e, Y=e, N=nil *)
+
+read X0;
+  X1 ^= hd X0;
+  X2 ^= tl X0;
+  X0 ^= cons X1 X2;
+  (* show(X1); show(X2); *)
+  SWAP(X1,X2,X3);
+  (* show(X1); show(X2); *)
+  X0 ^= cons X1 X2;
+  X2 ^= tl X0;
+  X1 ^= hd X0;
+write X0

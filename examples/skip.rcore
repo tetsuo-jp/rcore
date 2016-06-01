@@ -1,0 +1,11 @@
+(* May 18, 2016 *)
+(* skip *)
+macro SKIP(X,N)
+  (* X=d, N=nil *)
+  N ^= X;
+  N ^= X
+  (* X=d, N=nil *)
+
+read X1;
+  SKIP(X0,X1);
+write X1
