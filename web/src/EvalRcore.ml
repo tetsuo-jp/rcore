@@ -29,8 +29,6 @@ let rec rupdate (x, vx) = function
 			   then (y, vx)
 			   else if vx = vy 
 			   then (y, VNil)
-			   else if vx = VNil
-			   then (y, vy)
 			   else failwith "error in update") :: ys
 		     else (y, vy) :: rupdate (x, vx) ys
 

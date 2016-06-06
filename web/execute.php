@@ -52,7 +52,19 @@ $env = array();
 
 // echo $cmd . "\n";
 $process = proc_open($cmd, $descriptorspec, $pipes, $cwd, $env);
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>R-CORE Playground</title>
+  </head>
 
+<body>
+<h1>Result</h1>
+
+<textarea name="output" rows="30" cols="100">
+<?php
 if (is_resource($process)) {
 
     fwrite($pipes[0], $prog_text);
@@ -68,13 +80,9 @@ if (is_resource($process)) {
     if ($return_value === 124) {
       echo "Execution timed out!\n";
     }
-?>
-<textarea name="output" rows="30" cols="100">
-<?php
     echo $output;
+}
 ?>
 </textarea>
-<?php
-}
-
-?>
+</body>
+</html>

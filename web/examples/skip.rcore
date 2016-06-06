@@ -6,6 +6,6 @@ macro SKIP(X,N)
   N ^= X
   (* X=d, N=nil *)
 
-read X1;
+read X0;
   SKIP(X0,X1);
-write X1
+write X0

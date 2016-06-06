@@ -28,9 +28,9 @@ install: ri
 	cp -f ./ri ../web/
 
 test:
-	./ri ../examples/reverse.rcore ../examples/list.rcore_val
-	./ri ../examples/skip.rcore ../examples/list.rcore_val
-	./ri ../examples/move.rcore ../examples/list.rcore_val
+	./ri ../examples/reverse.rcore ../examples/list_abc.rcore_val
+	./ri ../examples/skip.rcore ../examples/list_abc.rcore_val
+	./ri ../examples/move.rcore ../examples/list_abc.rcore_val
 	./ri ../examples/conditional.rcore ../examples/nil.rcore_val
 	./ri ../examples/conditional.rcore ../examples/true.rcore_val
 	./ri ../examples/stack.rcore ../examples/nil.rcore_val

@@ -1,35 +1,34 @@
 <?php
 $example = filter_input(INPUT_GET, "example", FILTER_VALIDATE_INT);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>R-WHILE Playground</title>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <title>R-CORE Playground</title>
+</head>
 
-  <body>
-  <h1>R-WHILE Playground</h1>
+<body>
+<h1>R-CORE Playground</h1>
 
 <form action="execute.php" method="post">
-<h3>R-WHILE code</h3>
+<h3>R-CORE code</h3>
 <textarea name="prog" rows="20" cols="100">
 <?php
 if ($example == 1) {
-	$filename = "swap.rwhile";
+	$filename = "skip.rcore";
 } else if ($example == 2) {
-	$filename = "piorder.rwhile";
+	$filename = "move.rcore";
 } else if ($example == 3) {
-	$filename = "ri.rwhile";
+	$filename = "swap.rcore";
 } else if ($example == 4) {
-	$filename = "ri.rwhile";
+	$filename = "conditional.rcore";
 } else if ($example == 5) {
-	$filename = "ri.rwhile";
+	$filename = "conditional.rcore";
 } else if ($example == 6) {
-	$filename = "ri.rwhile";
+	$filename = "stack.rcore";
 } else {
-	$filename = "reverse.rwhile";
+	$filename = "reverse.rcore";
 }
 $con = file_get_contents("examples/$filename");
 echo($con);
@@ -39,19 +38,19 @@ echo($con);
 <textarea name="data" rows="10" cols="100">
 <?php
 if ($example == 1) {
-    $data = "list123.val";
+    $data = "list_abc.rcore_val";
 } else if ($example == 2) {
-    $data = "piorder_input05.val";
+    $data = "list_abc.rcore_val";
 } else if ($example == 3) {
-    $data = "id_and_nil.p_val";
+    $data = "list_abc.rcore_val";
 } else if ($example == 4) {
-    $data = "reverse_and_list123.p_val";
+    $data = "false.rcore_val";
 } else if ($example == 5) {
-    $data = "piorder.p_val";
+    $data = "true.rcore_val";
 } else if ($example == 6) {
-    $data = "ri_ri_reverse_list123.p_val";
+    $data = "nil.rcore_val";
 } else {
-    $data = "list123.val";
+    $data = "list_abc.rcore_val";
 }
 $con = file_get_contents("examples/$data");
 echo($con);
@@ -59,7 +58,7 @@ echo($con);
 </textarea>
 <h3>Options</h3>
 <input type="checkbox" name="invert" value="1">Inversion
-<input type="checkbox" name="p2d" value="1">Program2data
+<!-- <input type="checkbox" name="p2d" value="1">Program2data -->
 <input type="checkbox" name="exp" value="1">Expand macros
 <h3>Execute</h3>
 <input type="submit" value="Execute">
@@ -67,13 +66,13 @@ echo($con);
 
 <h2>Sample programs and data</h2>
 <ul>
+ <li> <a href="index.php?example=1">skip</a>
+ <li> <a href="index.php?example=2">move</a>
+ <li> <a href="index.php?example=3">swap</a>
+ <li> <a href="index.php?example=4">conditional 1</a>
+ <li> <a href="index.php?example=5">conditional 2</a>
+ <li> <a href="index.php?example=6">stack</a>
  <li> <a href="index.php?example=0">reverse</a>
- <li> <a href="index.php?example=1">swap</a>
- <li> <a href="index.php?example=2">translation from a tree to its preorder and inorder traversal (piorder)</a>
- <li> <a href="index.php?example=3">self-interpretation of an identity function</a>
- <li> <a href="index.php?example=4">self-interpretation of reverse</a>
- <li> <a href="index.php?example=5">self-interpretation of piorder</a>
- <li> <a href="index.php?example=6">self-interpretation of self-interpretation of reverse (This will probably time out in this playground.)</a>
 </ul>
 
   </body>
