@@ -1,4 +1,5 @@
 <?php
+set_time_limit(10);             // Limits the maximum execution time
 
 function convertEOL($string, $to = "\n")
 {
@@ -10,7 +11,7 @@ function convertEOL($string, $to = "\n")
 }
 
 $dir = dirname(__FILE__);
-$cmd = "$dir/ri";
+$cmd = "timeout -sKILL 10 $dir/ri";
 
 // 引数の設定
 $invert = filter_input(INPUT_POST, "invert", FILTER_VALIDATE_BOOLEAN);
